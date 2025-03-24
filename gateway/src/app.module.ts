@@ -4,7 +4,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 
-import { IncomesModule } from './modules/incomes/incomes.module';
+import { IncomesModule } from './incomes/incomes.module';
+import { NatsModule } from './transports/nats.module';
+import { APP_FILTER } from '@nestjs/core';
+import { RpcCustomExceptionFilter } from './common/exceptions/rpc-custom-exception.filter';
 
 @Module({
   imports: [
@@ -13,6 +16,13 @@ import { IncomesModule } from './modules/incomes/incomes.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     IncomesModule,
+    NatsModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: RpcCustomExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

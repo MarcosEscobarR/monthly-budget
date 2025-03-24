@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # Servicio para el microservicio de ingresos
+  incomes-ms:
+    build: ./incomes-ms
+    container_name: incomes-ms
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - nats
+    ports:
+      - "3001:3001"
+
+  # Servicio para el microservicio de gastos (por si lo agregas después)
+  # expenses-ms:
+  #   build: ./expenses-ms
+  #   container_name: expenses-ms
+  #   environment:
+  #     - DB_HOST=postgres
+  #     - DB_PORT=5432
+  #     - DB_USER=postgres
+  #     - DB_PASS=postgres
+  #     - DB_NAME=expenses_db
+  #     - NATS_SERVERS=nats://nats:4222
+  #   depends_on:
+  #     - postgres
+  #     - nats
+  #   ports:
+  #     - "3002:3002"
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    depends_on:
+      - incomes-ms
+      # - expenses-ms
+    ports:
+      - "4000:4000"
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nats:
+    image: nats:latest
+    container_name: nats
+    restart: always
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+volumes:
+  postgres_data:
+    driver: local
