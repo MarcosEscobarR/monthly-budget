@@ -6,6 +6,7 @@ import {
   CreateIncomeRecordInput,
   UpdateIncomeInput,
 } from './dtos/input';
+import { UpdateIncomeRecordInput } from './dtos/input/update-income-record.dto';
 
 @Controller()
 export class IncomeController {
@@ -45,10 +46,10 @@ export class IncomeController {
     return await this.incomeService.createIncomeRecord(data);
   }
 
-  // @MessagePattern('update-income-record')
-  // async updateIncomeRecord(@Payload() data: UpdateIncomeRecordInput) {
-  //   return await this.incomeService.updateIncomeRecord(data.id, data);
-  // }
+  @MessagePattern('update-income-record')
+  async updateIncomeRecord(@Payload() data: UpdateIncomeRecordInput) {
+    return await this.incomeService.updateIncomeRecord(data);
+  }
 
   // @MessagePattern('delete-income')
   // async deleteIncome(@Payload() id: string) {

@@ -18,7 +18,7 @@ import {
 export class IncomesResolver {
   constructor(private readonly incomesService: IncomesService) {}
 
-  @Query(() => [IncomePayload], { name: 'listIncomes' })
+  @Query(() => IncomePayload, { name: 'listIncomes' })
   listIncomes() {
     return this.incomesService.listIncomes();
   }
@@ -45,6 +45,6 @@ export class IncomesResolver {
 
   @Mutation(() => IncomeRecordPayload)
   updateIncomeRecord(@Args('data') data: UpdateIncomeInput) {
-    return this.incomesService.updateIncomeRecord(data.id, data);
+    return this.incomesService.updateIncomeRecord(data);
   }
 }

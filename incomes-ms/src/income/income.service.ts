@@ -129,6 +129,28 @@ export class IncomeService {
     }
   }
 
+  async updateIncomeRecord(
+    data: UpdateIncomeInput,
+  ): Promise<Result<IncomeRecordOutput>> {
+    try {
+      if (!(await this.existsIncome(data.id))) {
+        return Result.onError('Income not found');
+      }
+
+      const incomeRecord = await this.PrismaService.incomeRecord.update({
+        where: {
+          id: data.id,
+        },
+        data,
+      });
+
+      return Result.ok(incomeRecord);
+    } catch (error) {
+      Logger.log(error);
+      return Result.onError(error.message);
+    }
+  }
+
   private async existsIncome(id: string) {
     const income = await this.PrismaService.income.count({
       where: {

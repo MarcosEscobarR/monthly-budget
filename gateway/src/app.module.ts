@@ -8,6 +8,7 @@ import { IncomesModule } from './incomes/incomes.module';
 import { NatsModule } from './transports/nats.module';
 import { APP_FILTER } from '@nestjs/core';
 import { RpcCustomExceptionFilter } from './common/exceptions/rpc-custom-exception.filter';
+import { DebtsModule } from './debts/debts.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { RpcCustomExceptionFilter } from './common/exceptions/rpc-custom-excepti
     }),
     IncomesModule,
     NatsModule,
+    DebtsModule,
   ],
   providers: [
     {

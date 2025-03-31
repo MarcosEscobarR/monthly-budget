@@ -22,8 +22,24 @@ type IncomePayload {
   records: [IncomeRecordPayload!]!
 }
 
+type Debt {
+  """Example field (placeholder)"""
+  id: String!
+
+  """Example field (placeholder)"""
+  title: String!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  totalAmount: Int!
+}
+
 type Query {
-  listIncomes: [IncomePayload!]!
+  listIncomes: IncomePayload!
+  debts: [Debt!]!
+  debt(id: String!): Debt!
 }
 
 type Mutation {
@@ -31,6 +47,9 @@ type Mutation {
   updateIncome(data: UpdateIncomeInput!): IncomePayload!
   createIncomeRecord(data: CreateIncomeRecordInput!): IncomeRecordPayload!
   updateIncomeRecord(data: UpdateIncomeInput!): IncomeRecordPayload!
+  createDebt(createDebtInput: CreateDebtInput!): Debt!
+  updateDebt(updateDebtInput: UpdateDebtInput!): Debt!
+  removeDebt(id: Int!): Debt!
 }
 
 input CreateIncomeInput {
@@ -46,4 +65,27 @@ input CreateIncomeRecordInput {
   amount: Float!
   incomeId: String!
   description: String!
+}
+
+input CreateDebtInput {
+  """Example field (placeholder)"""
+  title: String!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  totalAmount: Int!
+}
+
+input UpdateDebtInput {
+  """Example field (placeholder)"""
+  title: String
+
+  """Example field (placeholder)"""
+  description: String
+
+  """Example field (placeholder)"""
+  totalAmount: Int
+  id: String!
 }

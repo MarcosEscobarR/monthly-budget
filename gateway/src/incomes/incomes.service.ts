@@ -71,12 +71,14 @@ export class IncomesService {
     return (await firstValueFrom(result)).value;
   }
 
-  async updateIncomeRecord(id: string, data: UpdateIncomeRecordInput) {
-    const result = this.client.send('update-income-record', { id, data }).pipe(
-      catchError((error) => {
-        throw new RpcException(error);
-      }),
-    );
+  async updateIncomeRecord(data: UpdateIncomeRecordInput) {
+    const result = this.client
+      .send('update-income-record', { id: data.id, data })
+      .pipe(
+        catchError((error) => {
+          throw new RpcException(error);
+        }),
+      );
 
     return (await firstValueFrom(result)).value;
   }
